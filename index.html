@@ -672,8 +672,8 @@
     <div class="dc-style-12">
     <div id="dcHeroText" data-reveal class="dc-style-13">
       <div class="dc-style-14">Post-Quantum · Proof-of-Work · Layer&nbsp;1</div>
-      <h1 class="dc-style-15">Discretion,<br>quantum-proof.</h1>
-      <p class="dc-style-16">Private digital cash for a post-quantum world. Discrete is a standalone proof-of-work chain where ownership is sealed by post-quantum signatures.</p>
+      <h1 class="dc-style-15">Post-quantum cash, from block zero.</h1>
+      <p class="dc-style-16">Discrete is a standalone proof-of-work chain whose ownership has been post-quantum since genesis — ML-DSA-65 spend authorization, ML-KEM-768 output delivery, and no elliptic-curve outputs anywhere that would have to be migrated later. Mainnet has been running since 15 July 2026.</p>
       <div id="dcHeroBtns" class="dc-style-17">
         <a href="#download" class="dc-style-18 dc-hover-3">Download wallet</a>
         <a href="https://docs.discrete.cash/whitepaper/discrete-whitepaper.pdf" class="dc-style-19 dc-hover-4">Read whitepaper</a>
@@ -688,8 +688,9 @@
     <div id="dcChips" data-reveal class="dc-style-24">
       <span class="dc-style-25">Post-Quantum only</span>
       <span class="dc-style-25">CryptoNote lineage</span>
-      <span class="dc-style-25">Stealth addresses</span>
-      <span class="dc-style-25">Solo CPU mining</span>
+      <span class="dc-style-25">Stealth output delivery</span>
+      <span class="dc-style-25">Solo-by-design mining</span>
+      <span class="dc-style-25">Transparent amounts (Phase&nbsp;1)</span>
     </div>
   </section>
 
@@ -698,20 +699,20 @@
     <div class="dc-style-27">
       <div data-reveal class="dc-style-28">
         <div class="dc-style-29">The Threat</div>
-        <h2 class="dc-style-30">When the curve breaks,<br>everything breaks.</h2>
-        <p class="dc-style-31">Harvest-now-decrypt-later is only the opening move. Nearly every coin in circulation rests its <em class="dc-style-32">ownership and its emission</em> on elliptic-curve signatures. The day a cryptographically-relevant quantum computer arrives, those signatures can be forged at will — not merely archived data decrypted. Balances can be seized, coinbase rewards counterfeited, and the integrity of issuance itself collapses across an entire ECC chain, all at once.</p>
+        <h2 class="dc-style-30">When the curve breaks,<br>ownership breaks.</h2>
+        <p class="dc-style-31">Harvest-now-decrypt-later is only the opening move. Nearly every coin in circulation rests its <em class="dc-style-32">ownership authorization</em> on elliptic-curve signatures. Given a cryptographically relevant quantum computer, Shor’s algorithm recovers a private key from any public key the chain has exposed — and the balances behind those keys can then be spent by someone else. The same break reaches whatever else a chain has put on the same curve: checkpoint keys, treasury controls, bridges, governance.</p>
       </div>
 
       <div data-reveal class="dc-style-33">
         <div class="dc-style-34">
           <div class="dc-style-35"><span class="dc-style-36"></span>Today's chains</div>
-          <h3 class="dc-style-37">Ownership and emission, forgeable</h3>
-          <p class="dc-style-38">ECDSA and EdDSA decide who owns what — and who may mint new supply. Shor's algorithm recovers private keys from the public keys exposed on-chain forever, letting an adversary forge signatures, drain existing balances, and counterfeit the coinbase. The whole monetary system fails, not just its confidentiality.</p>
+          <h3 class="dc-style-37">Ownership authorization, forgeable</h3>
+          <p class="dc-style-38">ECDSA and EdDSA decide who may spend. Once the private key behind an exposed public key can be recovered, an adversary can forge the signatures that authorize spending and drain the balances behind them — together with any checkpoint, treasury, bridge, or governance authority held on the same curve. Proof-of-work issuance is a separate mechanism: a node checks each coinbase against the emission formula, not against an ownership signature.</p>
         </div>
         <div class="dc-style-39">
           <div class="dc-style-40"><span class="dc-style-41"></span>Discrete</div>
-          <h3 class="dc-style-42">Quantum-resistant from genesis</h3>
-          <p class="dc-style-43">No elliptic curves to break. Discrete signs ownership and authorizes emission with post-quantum cryptography from the first block — so neither your coins nor the supply can be forged, today or after a quantum adversary arrives.</p>
+          <h3 class="dc-style-42">Post-quantum from genesis</h3>
+          <p class="dc-style-43">Existing cryptocurrencies can migrate to post-quantum ownership. Discrete takes another approach: post-quantum ownership from genesis, with no legacy elliptic-curve outputs that must later be migrated — and so no permanent tail of un-migrated coins whose owners are inactive, unreachable, or gone.</p>
         </div>
       </div>
     </div>
@@ -721,24 +722,39 @@
   <section id="how" class="dc-style-44">
     <div data-reveal class="dc-style-45">
       <div class="dc-style-46">Mechanics</div>
-      <h2 class="dc-style-47">Ownership you can't unwind.<br>Privacy built from the base layer.</h2>
+      <h2 class="dc-style-47">Post-quantum ownership.<br>Stealth delivery, solo work.</h2>
     </div>
 
     <div data-reveal class="dc-style-48">
       <div class="dc-style-49 dc-hover-5">
         <div class="dc-style-50">01</div>
         <h3 class="dc-style-51">Post-quantum ownership</h3>
-        <p class="dc-style-52">Accounts are anchored to post-quantum signatures rather than elliptic curves. Your coins remain provably yours even against an adversary holding a quantum computer.</p>
+        <p class="dc-style-52">Every spend is authorized by an ML-DSA-65 signature (FIPS 204) over the transaction digest, bound to the output through a SHA3-256 commitment. There is no elliptic-curve operation anywhere in the validation path, and no vulnerable legacy state.</p>
       </div>
       <div class="dc-style-49 dc-hover-5">
         <div class="dc-style-50">02</div>
-        <h3 class="dc-style-51">Short account IDs</h3>
-        <p class="dc-style-52">Register a short alias on-chain and share it instead of a very long address. Payments still fan out to one-time stealth outputs, so a memorable identifier never costs you receiving privacy.</p>
+        <h3 class="dc-style-51">Stealth output delivery</h3>
+        <p class="dc-style-52">The sender encapsulates to the recipient’s ML-KEM-768 view key (FIPS 203). An unspent output carries no recipient public key — only a hash commitment and a ciphertext — so unspent outputs are not linkable to an address. Amounts are public, and spending reveals the long-term spend key.</p>
       </div>
       <div class="dc-style-49 dc-hover-5">
         <div class="dc-style-50">03</div>
-        <h3 class="dc-style-51">One CPU, one vote</h3>
-        <p class="dc-style-52">Proof-of-work tuned for commodity CPUs and hardened against ASICs. Every block is signed by the miner's post-quantum identity, binding each reward to the worker and adding real friction to pools and rental — tilting issuance toward solo CPU miners rather than a few industrial operators.</p>
+        <h3 class="dc-style-51">Deterministic PQ wallets</h3>
+        <p class="dc-style-52">One seed derives the whole identity: the ML-KEM view key, the ML-DSA spend key, and every deposit address under it. Recovery is the same scan run from genesis — no address counters to lose and no wallet-local bookkeeping needed to find your own outputs.</p>
+      </div>
+      <div class="dc-style-49 dc-hover-5">
+        <div class="dc-style-50">04</div>
+        <h3 class="dc-style-51">Solo mining, by design</h3>
+        <p class="dc-style-52">DiscretePower binds each mining candidate to the reward identity and injects its ML-DSA signature throughout the memory-hard computation, adding friction to conventional delegated mining. It does not make powerful servers equal to desktop CPUs, and it does not make pooling mathematically impossible.</p>
+      </div>
+      <div class="dc-style-49 dc-hover-5">
+        <div class="dc-style-50">05</div>
+        <h3 class="dc-style-51">Local first-seen finality</h3>
+        <p class="dc-style-52">Each node refuses any reorganization more than ten blocks behind the history it actually witnessed, however much work the competing chain carries. The rule is weak-subjective and node-local: a partition can leave groups on incompatible histories, and recovery is an explicit operator step.</p>
+      </div>
+      <div class="dc-style-49 dc-hover-5">
+        <div class="dc-style-50">06</div>
+        <h3 class="dc-style-51">Account numbers</h3>
+        <p class="dc-style-52">A short checksummed number such as 4821-7-KQ9D-X points at a registration on chain, so people can exchange something shorter than a full post-quantum address. It is a usability layer over the address: resolution needs a trusted, synced node, and a wallet refuses the number unless the resolved keys reproduce its key fingerprint.</p>
       </div>
     </div>
   </section>
@@ -749,7 +765,7 @@
       <div data-reveal class="dc-style-28">
         <div class="dc-style-46">Download</div>
         <h2 class="dc-style-54">Run Discrete your way.</h2>
-        <p class="dc-style-31">Every client is open source. Verify the build, read the code, or just grab a wallet and start.</p>
+        <p class="dc-style-31">Every client is open source. Verify the build, read the code, or just grab a wallet and start. Discrete does not sell XDS — the only ways to hold it are to mine it or be paid in it.</p>
       </div>
 
       <div data-reveal class="dc-style-55">
@@ -777,7 +793,7 @@
         <div class="dc-style-56">
           <div class="dc-style-63">Web / Mobile</div>
           <h3 class="dc-style-58">Light wallet</h3>
-          <p class="dc-style-59">Lightweight wallet for the browser, iOS, and Android. Keys stay on your device — coming alongside mainnet.</p>
+          <p class="dc-style-59">Lightweight wallet for the browser, iOS, and Android. Keys stay on your device.</p>
           <div class="dc-style-60">
             <a href="https://wallet.discrete.cash/" class="dc-style-64 dc-hover-4">Coming soon</a>
             <a href="https://github.com/discretecoin/discrete-webwallet" class="dc-style-62 dc-hover-1">Source code ↗</a>
@@ -792,8 +808,8 @@
     <div class="dc-style-53">
       <div data-reveal class="dc-style-65">
         <div class="dc-style-46">Roadmap</div>
-        <h2 class="dc-style-54">Foundation now.<br>Discretion next.</h2>
-        <p class="dc-style-31">Discrete launches with hardened post-quantum ownership and adds amount-level discretion as the protocol matures. The transaction graph stays transparent by design — Discrete refines cash, it doesn't chase anonymity.</p>
+        <h2 class="dc-style-54">Phase 1 today.<br>Confidential amounts next.</h2>
+        <p class="dc-style-31">Mainnet runs Phase 1 today: post-quantum ownership with public amounts and a public spend graph. Confidential amounts are the one planned refinement and are roadmap, not a shipped feature — they ship only after independent review. The transaction graph stays transparent by design; Discrete is post-quantum cash, not an anonymity system.</p>
       </div>
 
       <div data-reveal class="dc-style-66">
@@ -805,22 +821,23 @@
           </div>
           <h3 class="dc-style-71">Foundation</h3>
           <ul class="dc-style-72">
-            <li class="dc-style-73"><span class="dc-style-74"></span>Proof-of-work mainnet</li>
+            <li class="dc-style-73"><span class="dc-style-74"></span>Proof-of-work mainnet, live since 15 July 2026</li>
             <li class="dc-style-73"><span class="dc-style-74"></span>Post-quantum account ownership</li>
-            <li class="dc-style-73"><span class="dc-style-74"></span>Stealth one-time addresses</li>
+            <li class="dc-style-73"><span class="dc-style-74"></span>Stealth one-time output delivery (ML-KEM-768)</li>
+            <li class="dc-style-73"><span class="dc-style-74"></span>Amounts and the spend graph are public</li>
           </ul>
         </div>
         <!-- phase 2 -->
         <div class="dc-style-75">
           <div class="dc-style-68">
             <span class="dc-style-76">Phase 02</span>
-            <span class="dc-style-77">Next</span>
+            <span class="dc-style-77">Roadmap</span>
           </div>
           <h3 class="dc-style-78">Confidential amounts</h3>
           <ul class="dc-style-72">
-            <li class="dc-style-79"><span class="dc-style-80"></span>Transaction values kept private</li>
-            <li class="dc-style-79"><span class="dc-style-80"></span>A payee can't read your change or balance</li>
-            <li class="dc-style-79"><span class="dc-style-80"></span>Post-quantum commitments; graph stays public</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>Amounts hidden behind lattice commitments</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>A payee cannot read your change or balance</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>Not consensus until implemented, reviewed and frozen</li>
           </ul>
         </div>
         <!-- anonymity note (replaces former phase 3) -->
@@ -846,7 +863,7 @@
       <div data-reveal>
         <div class="dc-style-46">Specification</div>
         <h2 class="dc-style-83">Built like cash.<br>Hardened like a vault.</h2>
-        <p class="dc-style-84">A focused set of primitives — proven, conservative, and post-quantum by default. Figures below describe the proposed protocol and may evolve before mainnet.</p>
+        <p class="dc-style-84">A focused set of primitives — standardized, conservative, and post-quantum by default. The figures below are the frozen mainnet consensus parameters; changing any of them after launch is a hard fork.</p>
       </div>
 
       <div data-reveal class="dc-style-85">
@@ -860,27 +877,39 @@
         </div>
         <div class="dc-style-86">
           <span class="dc-style-76">Signatures</span>
-          <span class="dc-style-87">Post-quantum (lattice / hash-based)</span>
+          <span class="dc-style-87">ML-DSA-65 (FIPS 204) · ML-KEM-768 (FIPS 203)</span>
         </div>
         <div class="dc-style-86">
           <span class="dc-style-76">Mining</span>
-          <span class="dc-style-87">Egalitarian · CPU-only · identity-bound</span>
+          <span class="dc-style-87">CPU-oriented · identity-bound · solo-by-design</span>
         </div>
         <div class="dc-style-86">
           <span class="dc-style-76">Receiving</span>
-          <span class="dc-style-87">Stealth one-time addresses</span>
+          <span class="dc-style-87">Stealth one-time outputs · no key on chain</span>
         </div>
         <div class="dc-style-86">
           <span class="dc-style-76">Account IDs</span>
-          <span class="dc-style-87">Short · on-chain registered aliases</span>
+          <span class="dc-style-87">Short on-chain locators · UX over addresses</span>
         </div>
         <div class="dc-style-86">
           <span class="dc-style-76">Emission</span>
-          <span class="dc-style-87">Initial curve → 2%/yr tail</span>
+          <span class="dc-style-87">21M curve shape → perpetual ~2%/yr tail · no hard cap</span>
         </div>
         <div class="dc-style-86">
           <span class="dc-style-76">Confidentiality</span>
-          <span class="dc-style-87">Confidential amounts (roadmap) · transparent graph</span>
+          <span class="dc-style-87">Phase 1: amounts public, spends linkable</span>
+        </div>
+        <div class="dc-style-86">
+          <span class="dc-style-76">Finality</span>
+          <span class="dc-style-87">Node-local first-seen depth limit (10 blocks)</span>
+        </div>
+        <div class="dc-style-86">
+          <span class="dc-style-76">Funding</span>
+          <span class="dc-style-87">No ICO, no private sale, no separate dev tax</span>
+        </div>
+        <div class="dc-style-86">
+          <span class="dc-style-76">Treasury Reserve</span>
+          <span class="dc-style-87">5% inside the curve · vested on-chain over 5 years</span>
         </div>
         <div class="dc-style-88">
           <span class="dc-style-76">Status</span>
@@ -890,11 +919,61 @@
     </div>
   </section>
 
+  <!-- ============ LIMITS ============ -->
+  <section id="limits" class="dc-style-26">
+    <div class="dc-style-53">
+      <div data-reveal class="dc-style-65">
+        <div class="dc-style-46">Limitations</div>
+        <h2 class="dc-style-54">What Discrete<br>does not claim.</h2>
+        <p class="dc-style-31">These are deliberate, documented costs of the design. They are stated here for the same reason they are stated in the whitepaper: a protocol assessment is only useful if it includes what the protocol gives up.</p>
+      </div>
+
+      <div data-reveal class="dc-style-66">
+        <div class="dc-style-75">
+          <div class="dc-style-68">
+            <span class="dc-style-76">Privacy</span>
+          </div>
+          <h3 class="dc-style-78">Not an anonymity system</h3>
+          <ul class="dc-style-72">
+            <li class="dc-style-79"><span class="dc-style-80"></span>Phase 1 amounts are public</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>A spend reveals the long-term spend key, so spends under one identity are linkable</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>Transaction-graph untraceability is not a goal</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>Large lattice keys and signatures make transactions large</li>
+          </ul>
+        </div>
+        <div class="dc-style-75">
+          <div class="dc-style-68">
+            <span class="dc-style-76">Mining</span>
+          </div>
+          <h3 class="dc-style-78">Friction, not impossibility</h3>
+          <ul class="dc-style-72">
+            <li class="dc-style-79"><span class="dc-style-80"></span>No formally strong non-outsourceability: a custodial operator can hold the reward key and sign jobs</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>No botnet or farm resistance, and no permanent ASIC or FPGA resistance</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>No hardware equality between desktop and server CPUs</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>Solo mining carries substantial reward variance</li>
+          </ul>
+        </div>
+        <div class="dc-style-75">
+          <div class="dc-style-68">
+            <span class="dc-style-76">Consensus &amp; supply</span>
+          </div>
+          <h3 class="dc-style-78">Stated trade-offs</h3>
+          <ul class="dc-style-72">
+            <li class="dc-style-79"><span class="dc-style-80"></span>First-seen finality is weak-subjective and node-local, not a global certificate</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>Partitions can wedge a segment and require operator-guided recovery</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>There is no hard supply cap: a perpetual ~2%/yr tail funds security</li>
+            <li class="dc-style-79"><span class="dc-style-80"></span>Independent cryptographic review of the composition remains desirable</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ CTA STRIP ============ -->
   <section class="dc-style-90">
     <div data-reveal class="dc-style-91">
-      <h2 class="dc-style-92">Discretion isn’t a feature.<br /> It’s the design principle.</h2>
-      <p class="dc-style-93">Read the protocol, audit the approach, or spin up a node and help secure the network.</p>
+      <h2 class="dc-style-92">Don’t take our word for it.<br /> Run it.</h2>
+      <p class="dc-style-93">Run a node. Mine it. Inspect the chain. Benchmark the proof-of-work. Read the whitepaper and review the code. Discrete does not sell a coin — it invites you to examine a network.</p>
       <div class="dc-style-94">
         <a href="https://docs.discrete.cash/whitepaper/discrete-whitepaper.pdf" class="dc-style-95 dc-hover-3">Read the whitepaper</a>
         <a href="https://github.com/discretecoin" class="dc-style-96 dc-hover-4">View on GitHub</a>
@@ -919,6 +998,7 @@
           <a href="https://github.com/discretecoin" class="dc-style-105 dc-hover-1">Source code</a>
           <a href="#roadmap" class="dc-style-105 dc-hover-1">Roadmap</a>
           <a href="#specs" class="dc-style-105 dc-hover-1">Specification</a>
+          <a href="#limits" class="dc-style-105 dc-hover-1">Limitations</a>
         </div>
       </div>
       <div>
@@ -940,7 +1020,7 @@
     </div>
     <div class="dc-style-106">
       <span class="dc-style-107">© 2021–2026 Discrete</span>
-      <span class="dc-style-108">In active development. Nothing here is financial advice.</span>
+      <span class="dc-style-108">Discrete is not sold or offered for sale. Nothing here is financial advice.</span>
     </div>
   </footer>
 
