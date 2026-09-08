@@ -91,7 +91,7 @@ test("all local page assets and homepage directory links resolve", () => {
     assert.ok(fs.existsSync(path.resolve(root, "services", url)), "Missing local resource: " + url);
   }
   const home = fs.readFileSync(path.join(root, "index.html"), "utf8");
-  assert.match(home, /href="services\/"[^>]*>Services<\/a>/);
+  assert.match(home, /id="dcMenu"[^>]*>\s*<a href="services\/"[^>]*>Ecosystem services<\/a>/);
   assert.match(home, /href="services\/"[^>]*>Ecosystem services<\/a>/);
 });
 
