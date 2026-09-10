@@ -3,7 +3,7 @@ name: Services contribution checks
 on:
   pull_request:
   push:
-    branches: [main, 'codex/**']
+    branches: [main, '**/services-directory']
   workflow_dispatch:
 
 permissions:
